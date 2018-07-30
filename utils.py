@@ -9,7 +9,6 @@ import seaborn as sns # for making plots with seaborn
 color = sns.color_palette()
 import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
-%matplotlib inline
 
 from plotly import tools
 

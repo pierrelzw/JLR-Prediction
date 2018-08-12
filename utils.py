@@ -9,10 +9,34 @@ import seaborn as sns # for making plots with seaborn
 color = sns.color_palette()
 import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode, iplot
+import config as cfg
 
 from plotly import tools
 
 init_notebook_mode(connected=True)
+
+
+
+#----------------------------------------
+# data cleaning on dataframe level
+#----------------------------------------
+def clean_df(df):
+    print("Original shape: ", df.shape)
+    # replace sting '[]' to NAN
+    df.replace('[]', np.nan, inplace=True)
+
+    # remove duplicate rows
+    
+    df.drop_duplicates(inplace=True)
+    print("After removing duplication: ", df.shape)
+    
+    # remove empty rows
+    df.dropna(how='all',axis=0, inplace=True)
+    print("After removing empty rows: ", df.shape)
+
+    # remove empty columns
+    df.dropna(how='all',axis=1, inplace=True)
+    print("After removing empty cols: ",df.shape)
 
 
 #----------------------------------------
@@ -33,7 +57,39 @@ def extract_car_info(row):
     else:
         return ''
 
+def gender2bool(row):
+    return cfg._C.dict_gender[row['gender']] + 1
 
+def loc2value(row):
+    locs = cfg._C.LOCATIONS 
+    len_loc = len(locs)
+    dict_loc = dict(zip(locs, range(len_loc)))
+    return dict_loc[row['location']] + 1
+
+
+def extract_year(row):
+    return row['regis_year'].dt.year.astype('uint16')
+def extract_month(row):
+    return row['regis_month'].dt.month.astype('uint8')
+def extract_day(row):
+    return row['regis_day'].dt.day.astype('uint8')
+
+def property2value(row):
+    properties = cfg._C.PROPERTIES
+    len_prop = len(properties)
+    dict_prop = dict(zip(properties, range(len_prop)))
+    return dict_prop[row['properties']] + 1
+    
+def cars_like2value(row):
+    import config as cfg
+    cars = cfg._C.CARS_LIKE
+    len_cars = len(cars)
+    dict_cars = dict(zip(cars, range(len_cars)))
+    if str(row['car_like']) == 'nan':
+        return 0
+    else:
+        return dict_cars[row['car_like']] + 1 
+    
 #----------------------------------------
 # data exploration
 #----------------------------------------

@@ -138,6 +138,9 @@ def gp(df, col, title):
     y0 = [float(x)*100/total[x0[i]] for i,x in enumerate(a1.values)]
     y1 = [float(x)*100/total[x1[i]] for i,x in enumerate(b1.values)]
     
+    y0, x0 = zip(*sorted(zip(y0, x0), reverse=True))
+    y1, x1 = zip(*sorted(zip(y1, x1), reverse=True))
+    
     trace1 = go.Bar(x=x0, y=y0, name="Target : 0", marker=dict(color="#96D38C"))
     trace2 = go.Bar(x=x1, y=y1, name="Target : 1", marker=dict(color="#FEBFB3"))
     
@@ -158,8 +161,8 @@ def exploreCat(df, col):
     iplot(fig)
 
 # the relation between the categorical column and the target
-def catAndTrgt(df, col):
-    tr0 = bar_hor(df, col, "Distribution of "+col, "#f975ae", w=700, lm=100, return_trace=True)
+def catAndTrgt(df, col, limit=100):
+    tr0 = bar_hor(df, col, "Distribution of " + col, "#f975ae", w=700, lm=100, limit=limit, return_trace=True)
     tr1, tr2 = gp(df, col, "Distribution of Target with "+col)
     
     fig = tools.make_subplots(rows=1, cols=3, print_grid=False, 

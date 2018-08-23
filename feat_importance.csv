@@ -1,10 +1,7 @@
 importance,name
-122,car_like
-85,date_delta
-80,location
-70,fans_count
-69,mileage
-29,follow_count
-7,gender
-0,level
-0,properties
+4862,date_delta
+4538,mileage
+3499,location
+3212,fans_count
+2398,car_like
+1430,follow_count

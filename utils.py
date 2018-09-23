@@ -128,8 +128,8 @@ def bar_hor(df,  col, title, color, w=None, h=None, lm=0,  limit=100, return_tra
 def gp(df, col, title):
     df0 = df[df['label']==0]
     df1 = df[df['label']==1]
-    a1 = df1[col].value_counts()
-    b1 = df0[col].value_counts()
+    a1 = df0[col].value_counts()
+    b1 = df1[col].value_counts()
     
     total = dict(df[col].value_counts())
     x0 = a1.index
@@ -138,11 +138,12 @@ def gp(df, col, title):
     y0 = [float(x)*100/total[x0[i]] for i,x in enumerate(a1.values)]
     y1 = [float(x)*100/total[x1[i]] for i,x in enumerate(b1.values)]
     
-    y0, x0 = zip(*sorted(zip(y0, x0), reverse=True))
-    y1, x1 = zip(*sorted(zip(y1, x1), reverse=True))
+#     y0, x0 = zip(*sorted(zip(y0, x0), reverse=True))
+#     y1, x1 = zip(*sorted(zip(y1, x1), reverse=True))
     
-    trace1 = go.Bar(x=x0, y=y0, name="Target : 0", marker=dict(color="#96D38C"))
-    trace2 = go.Bar(x=x1, y=y1, name="Target : 1", marker=dict(color="#FEBFB3"))
+    trace1 = go.Bar(x=x0, y=y0, name="Target : 0", marker=dict(color="#96D38C"),hoverinfo="all")
+    trace2 = go.Bar(x=x1, y=y1, name="Target : 1", marker=dict(color="#FEBFB3"),hoverinfo="all")
+    
     
     return trace1, trace2
 
